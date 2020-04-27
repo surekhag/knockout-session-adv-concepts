@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Simple Data binding Example</title>
+    <link rel="stylesheet" type="text/css" href="ko.css">
+    <script type="text/javascript" src="knockout-3.4.2.js"></script>
+</head>
+
+<body>
+
+    <div data-bind="text:message, toUpperCase: message" class="div1"> </div>
+
+    <script>
+
+        ko.bindingHandlers.toUpperCase = {
+            init: changeCase,
+            // This will be called when the binding is first applied to an element
+            // Set up any initial state, event handlers, etc. here
+            update: changeCase
+            // This will be called once when the binding is first applied to an element,
+            // and again whenever any observables/computeds that are accessed change
+            // Update the DOM element based on the supplied values here.
+        }
+
+        function changeCase(element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
+
+            // console.log(element);
+            // console.log(ko.utils.unwrapObservable(valueAccessor()));
+            // console.log(allBindingsAccessor());
+            // console.log(viewModel);
+            // console.log(bindingContext);
+
+            var observable = valueAccessor();
+            var text = ko.utils.unwrapObservable(valueAccessor());
+            // console.log(text.toUpperCase());
+            // observable(text.toUpperCase());
+        }
+
+        var viewModel = {
+            message: ko.observable('Welcome')
+        }
+
+        ko.applyBindings(viewModel);
+    </script>
+</body>
+
+</html>

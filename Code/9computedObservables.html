@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Simple Data binding Example</title>
+    <link rel="stylesheet" type="text/css" href="ko.css">
+    <script type="text/javascript" src="knockout-3.4.2.js"></script>
+</head>
+
+<body>
+
+    First Name : <span data-bind="text: firstName"> </span><br>
+    Last Name : <span data-bind="text: lastName"> </span><br>
+    Full Name : <span data-bind="text: fullName"> </span><br>
+
+    <script>
+        function AppViewModel() {
+            var self = this;
+
+            self.firstName = ko.observable('Bob');
+            self.lastName = ko.observable('Smith');
+            self.fullName = ko.computed(function () {
+                return self.firstName() + " " + self.lastName();
+            });
+        }
+        var viewModel = new AppViewModel();
+
+        ko.applyBindings(viewModel);
+        // console.log(viewModel.fullName("test"));
+               
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Simple Data binding Example</title>
+    <link rel="stylesheet" type="text/css" href="ko.css">
+    <script type="text/javascript" src="knockout-3.4.2.js"></script>
+</head>
+
+<body>
+
+    <input type="text" data-bind="textInput : name, regExReplace:name, pattern:'(^[^a-zA-Z]*)|(\\W)',flags:'g'"
+        placeholder="Enter a valid name" />
+    <span data-bind="text : name"></span>
+    <br />
+    <input class=" form-control " type="text "
+        data-bind="textInput : num, regExReplace:num, pattern: '[^0-9]',flags: 'g' " placeholder="Enter a number " />
+    <span data-bind="text : num"></span>
+
+    <script>
+
+        ko.bindingHandlers.regExReplace = {
+            init: regExReplaceFunction,
+            update: regExReplaceFunction
+        }
+
+        function regExReplaceFunction(element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
+            // console.log(element);
+            // console.log(ko.utils.unwrapObservable(valueAccessor()));
+            // console.log(allBindingsAccessor());
+            // console.log(viewModel);
+            // console.log(bindingContext);
+
+            var observable = valueAccessor();
+            var textToReplace = allBindingsAccessor().textToReplace || '';
+            var pattern = allBindingsAccessor().pattern || '';
+            var flags = allBindingsAccessor().flags;
+            var text = ko.utils.unwrapObservable(valueAccessor());
+            // console.log(text);
+            if (!text) return;
+            var textReplaced = text.replace(new RegExp(pattern, flags), textToReplace);
+            observable(textReplaced);
+        }
+
+        ko.applyBindings({
+            name: ko.observable(),
+            num: ko.observable()
+        });
+
+    </script>
+</body>
+
+</html>
